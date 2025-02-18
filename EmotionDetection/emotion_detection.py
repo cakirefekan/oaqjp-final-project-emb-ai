@@ -9,4 +9,6 @@ def emotion_detector(text_to_analyse):
     formatted_response = json.loads(response.text)
     # Access the emotions in dict
     result = formatted_response['emotionPredictions'][0]['emotion']
+    # Add 'dominant_emotion' value according to maximum feelings from 'result'
+    result.update({'dominant_emotion' : max(result)})
     return result
