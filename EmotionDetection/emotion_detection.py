@@ -8,7 +8,15 @@ def emotion_detector(text_to_analyse):
     # Parse json
     formatted_response = json.loads(response.text)
     # Access the emotions in dict
-    result = formatted_response['emotionPredictions'][0]['emotion']
-    # Add 'dominant_emotion' value according to maximum feelings from 'result'
-    result.update({'dominant_emotion' : max(result)})
-    return result
+    emotions = formatted_response['emotionPredictions'][0]['emotion']
+    # Initialize a dictionary to determine dominant emotion
+    dominant_emotion = {"emotion":"", "value":0}
+    # Reach each emotion to determine dominant one.
+    for emotion in (emotions):
+        # Compare the current emotion's score with assigned emotion's.
+        if float(emotions[emotion]) > float(dominant_emotion["value"]):
+            # If the current one more dominant then update 'dominant_emotion' with current values
+            dominant_emotion.update({"emotion": emotion, "value":emotions[emotion]})
+    # After checking complete, update the respond 'emotions'
+    emotions.update({'dominant_emotion' :dominant_emotion["emotion"] })
+    return emotions
